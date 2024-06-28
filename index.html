@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link rel="stylesheet" href="styles.css">
+<style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #79e09c;
+    font-family: Arial, sans-serif;
+}
+
+.stopwatch {
+    text-align: center;
+}
+
+#display {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+button {
+    font-size: 1em;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor:pointer;
+    background: #00d9ff;
+}
+</style>
+
+</head>
+<body>
+    <div class="stopwatch">
+        <div id="display">00:00:00</div>
+        <button id="startStopBtn">Start</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+<script>
+   // JavaScript
+let timer; // Variable to hold the interval timer
+
+document.getElementById('startStopBtn').addEventListener('click', function() {
+    if (this.textContent === 'Start') {
+        startTimer();
+        this.textContent = 'Stop';
+    } else {
+        stopTimer();
+        this.textContent = 'Start';
+    }
+});
+
+document.getElementById('resetBtn').addEventListener('click', function() {
+    stopTimer();
+    document.getElementById('display').textContent = '00:00:00';
+    document.getElementById('startStopBtn').textContent = 'Start';
+});
+
+function startTimer() {
+    let startTime = Date.now(); // Get the current timestamp
+    timer = setInterval(function() {
+        let elapsedTime = Date.now() - startTime;
+        updateDisplay(elapsedTime);
+    }, 1000); // Update display every second
+}
+
+function stopTimer() {
+    clearInterval(timer); // Stop the interval timer
+}
+
+function updateDisplay(elapsedTime) {
+    let hours = Math.floor(elapsedTime / 3600000);
+    let minutes = Math.floor((elapsedTime % 3600000) / 60000);
+    let seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+    // Format numbers to always have two digits
+    hours = hours.toString().padStart(2, '0');
+    minutes = minutes.toString().padStart(2, '0');
+    seconds = seconds.toString().padStart(2, '0');
+
+    // Update the display with the formatted time
+    document.getElementById('display').textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+</script>
